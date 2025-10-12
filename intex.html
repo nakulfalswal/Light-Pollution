@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Pollution Tracker - Illuminate the Dark</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet.draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="logo-container">
+                <div class="logo-hexagon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <div class="orbital-rings">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                    <div class="ring ring-3"></div>
+                </div>
+            </div>
+            <h1 class="loading-title">LIGHT POLLUTION TRACKER</h1>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+                <div class="loading-percentage">0%</div>
+            </div>
+            <div class="loading-messages">
+                <p class="loading-message active">Initializing satellite connection...</p>
+                <p class="loading-message">Scanning light pollution data...</p>
+                <p class="loading-message">Mapping dark sky zones...</p>
+                <p class="loading-message">People don't realize how much light pollution is around them.</p>
+                <p class="loading-message">Our tool makes it visible, measurable, and solvable.</p>
+                <p class="loading-message">Preparing your environmental dashboard...</p>
+            </div>
+            <div class="loading-stats">
+                <div class="stat-item">
+                    <i class="fas fa-globe"></i>
+                    <span>80% of the world lives under light-polluted skies</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-star"></i>
+                    <span>99% of people in US & EU can't see the Milky Way</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>LED technology can reduce light pollution by 50%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="container" style="display: none;">
+        <div id="sidebar">
+            <div class="sidebar-header">
+                <h1><i class="fas fa-satellite"></i> Light Pollution Tracker</h1>
+                <div class="location-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="current-location">Ludhiana, Punjab</span>
+                </div>
+            </div>
+            
+            <!-- Tabs Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="analysis">
+                    <i class="fas fa-chart-bar"></i> Analysis
+                </button>
+                <button class="tab-btn" data-tab="solutions">
+                    <i class="fas fa-lightbulb"></i> Solutions
+                </button>
+                <button class="tab-btn" data-tab="darksky">
+                    <i class="fas fa-moon"></i> Dark Sky
+                </button>
+                <button class="tab-btn" data-tab="alerts">
+                    <i class="fas fa-bell"></i> Alerts
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content active" id="analysis-tab">
+                <div class="section-header">
+                    <h2>Pollution Analysis</h2>
+                    <button class="btn-action" id="start-analysis">
+                        <i class="fas fa-play"></i> Start Analysis
+                    </button>
+                </div>
+                <div id="results">
+                    <div class="placeholder-text">
+                        <i class="fas fa-draw-polygon"></i>
+                        Draw on the map to analyze light pollution
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-sun"></i>
+                        <div class="stat-value" id="avg-pollution">--</div>
+                        <div class="stat-label">Avg Pollution</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-map"></i>
+                        <div class="stat-value" id="area-covered">--</div>
+                        <div class="stat-label">Area (km²)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="solutions-tab">
+                <h2>Smart Lighting Solutions</h2>
+                <div class="solutions-list">
+                    <div class="solution-card">
+                        <div class="solution-icon">
+                            <i class="fas fa-led"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>LED Retrofit</h3>
+                            <p>Switch to warm-colored LED (3000K or less)</p>
+                            <div class="efficiency-badge">70% Energy Saving</div>
+                        </div>
+                    </div>
+                    <div class="solution-card">
+                        <div class="solution-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Shielded Fixtures</h3>
+                            <p>Install full-cutoff shields to direct light downward</p>
+                            <div class="efficiency-badge">90% Glare Reduction</div>
+                        </div>
+                    </div>
+                    <div class="solution-card">
+                        <div class="solution-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="solution-info">
+                            <h3>Smart Timers</h3>
+                            <p>Motion sensors & dimming controls</p>
+                            <div class="efficiency-badge">50% Usage Reduction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="darksky-tab">
+                <h2>Dark Sky Zones Nearby</h2>
+                <div id="darksky-zones">
+                    <div class="darksky-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Searching for dark sky locations...</p>
+                    </div>
+                </div>
+                <div class="darksky-info">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Dark sky zones are areas with minimal light pollution, perfect for astronomy and eco-tourism.</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="alerts-tab">
+                <h2>Authority Alerts</h2>
+                <div class="alert-form">
+                    <h3>Report Light Pollution Hotspot</h3>
+                    <select id="alert-type">
+                        <option value="">Select Issue Type</option>
+                        <option value="excessive">Excessive Street Lighting</option>
+                        <option value="unshielded">Unshielded Lights</option>
+                        <option value="glare">Dangerous Glare</option>
+                        <option value="trespass">Light Trespass</option>
+                    </select>
+                    <textarea id="alert-description" placeholder="Describe the issue..."></textarea>
+                    <button class="btn-alert" id="send-alert">
+                        <i class="fas fa-paper-plane"></i> Send Alert
+                    </button>
+                </div>
+                <div id="alert-history"></div>
+            </div>
+
+            <!-- City Score Badge -->
+            <div class="city-badge">
+                <div class="badge-header">City Light Score</div>
+                <div class="badge-score" id="city-score">B+</div>
+                <div class="badge-rank">Rank #42 in Punjab</div>
+                <button class="btn-share">
+                    <i class="fas fa-share-alt"></i> Share Badge
+                </button>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <!-- Floating Action Buttons -->
+        <div class="fab-container">
+            <button class="fab fab-main" id="fab-menu">
+                <i class="fas fa-plus"></i>
+            </button>
+            <div class="fab-options">
+                <button class="fab fab-option" data-action="measure">
+                    <i class="fas fa-ruler"></i>
+                    <span class="fab-label">Measure</span>
+                </button>
+                <button class="fab fab-option" data-action="compare">
+                    <i class="fas fa-balance-scale"></i>
+                    <span class="fab-label">Compare</span>
+                </button>
+                <button class="fab fab-option" data-action="export">
+                    <i class="fas fa-download"></i>
+                    <span class="fab-label">Export</span>
+                </button>
+                <button class="fab fab-option" data-action="heatmap">
+                    <i class="fas fa-fire"></i>
+                    <span class="fab-label">Heatmap</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Panel (appears on hover) -->
+        <div class="info-panel" id="info-panel">
+            <div class="info-content">
+                <h3>Quick Tips</h3>
+                <ul>
+                    <li>Draw polygons to analyze areas</li>
+                    <li>Click markers for detailed info</li>
+                    <li>Use heatmap for regional view</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification-container"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet.draw JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <!-- GeometryUtil for area calculation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.geometryutil/0.10.0/leaflet.geometryutil.min.js"></script>
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="web.js"></script>
+</body>
+</html>
