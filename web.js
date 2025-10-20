@@ -57,6 +57,16 @@ function initializeApp() {
     // Fade out loading screen
     loadingScreen.style.opacity = '0';
     setTimeout(() => {
+        // Pause/reset background video if present to free resources
+        const loadingVideo = document.getElementById('loading-video');
+        if (loadingVideo) {
+            try {
+                loadingVideo.pause();
+                loadingVideo.currentTime = 0;
+            } catch (e) {
+                // ignore any errors from media controls
+            }
+        }
         loadingScreen.style.display = 'none';
         container.style.display = 'flex';
         initializeMap();

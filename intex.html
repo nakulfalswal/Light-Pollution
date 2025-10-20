@@ -15,10 +15,15 @@
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
+        <!-- Background video -->
+        <video id="loading-video" class="loading-video" autoplay muted loop playsinline preload="auto">
+            <source src="load.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <div class="loading-content">
             <div class="logo-container">
                 <div class="logo-hexagon">
-                    <i class="fas fa-satellite"></i>
+                    <img src="satalight.png" alt="Satalight logo" class="logo-img">
                 </div>
                 <div class="orbital-rings">
                     <div class="ring ring-1"></div>
@@ -26,7 +31,7 @@
                     <div class="ring ring-3"></div>
                 </div>
             </div>
-            <h1 class="loading-title">LIGHT POLLUTION TRACKER</h1>
+                <h1 class="loading-title">LIGHT POLLUTION TRACKER</h1>
             <div class="loading-bar-container">
                 <div class="loading-bar"></div>
                 <div class="loading-percentage">0%</div>
@@ -60,10 +65,10 @@
     <div class="container" style="display: none;">
         <div id="sidebar">
             <div class="sidebar-header">
-                <h1><i class="fas fa-satellite"></i> Light Pollution Tracker</h1>
+                <h1><img src="satalight.png" alt="Satalight" class="header-logo"> Light Pollution Tracker</h1>
                 <div class="location-info">
                     <i class="fas fa-map-marker-alt"></i>
-                    <span id="current-location">Ludhiana, Punjab</span>
+                    <span id="current-location">New Delhi</span>
                 </div>
             </div>
             
@@ -112,9 +117,14 @@
             </div>
 
             <div class="tab-content" id="solutions-tab">
+                <!-- Background video for Solutions tab -->
+                <video class="tab-bg-video" id="solutions-bg-video" autoplay muted loop playsinline preload="auto">
+                    <source src="solution.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
                 <h2>Smart Lighting Solutions</h2>
                 <div class="solutions-list">
-                    <div class="solution-card">
+                    <div class="solution-card glossy-card">
                         <div class="solution-icon">
                             <i class="fas fa-led"></i>
                         </div>
@@ -124,7 +134,7 @@
                             <div class="efficiency-badge">70% Energy Saving</div>
                         </div>
                     </div>
-                    <div class="solution-card">
+                    <div class="solution-card glossy-card">
                         <div class="solution-icon">
                             <i class="fas fa-shield-alt"></i>
                         </div>
@@ -134,7 +144,7 @@
                             <div class="efficiency-badge">90% Glare Reduction</div>
                         </div>
                     </div>
-                    <div class="solution-card">
+                    <div class="solution-card glossy-card">
                         <div class="solution-icon">
                             <i class="fas fa-clock"></i>
                         </div>
@@ -148,22 +158,32 @@
             </div>
 
             <div class="tab-content" id="darksky-tab">
+                <!-- Background video for Dark Sky tab -->
+                <video class="tab-bg-video" id="darksky-bg-video" autoplay muted loop playsinline preload="auto">
+                    <source src="dark sky.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
                 <h2>Dark Sky Zones Nearby</h2>
                 <div id="darksky-zones">
-                    <div class="darksky-loading">
+                    <div class="darksky-loading glossy-card">
                         <i class="fas fa-spinner fa-spin"></i>
                         <p>Searching for dark sky locations...</p>
                     </div>
                 </div>
-                <div class="darksky-info">
+                <div class="darksky-info glossy-card">
                     <i class="fas fa-info-circle"></i>
                     <p>Dark sky zones are areas with minimal light pollution, perfect for astronomy and eco-tourism.</p>
                 </div>
             </div>
 
             <div class="tab-content" id="alerts-tab">
+                <!-- Background video for Alerts tab -->
+                <video class="tab-bg-video" id="alerts-bg-video" autoplay muted loop playsinline preload="auto">
+                    <source src="alert.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
                 <h2>Authority Alerts</h2>
-                <div class="alert-form">
+                <div class="alert-form glossy-card">
                     <h3>Report Light Pollution Hotspot</h3>
                     <select id="alert-type">
                         <option value="">Select Issue Type</option>
@@ -173,7 +193,7 @@
                         <option value="trespass">Light Trespass</option>
                     </select>
                     <textarea id="alert-description" placeholder="Describe the issue..."></textarea>
-                    <button class="btn-alert" id="send-alert">
+                    <button class="btn-alert glossy-card" id="send-alert">
                         <i class="fas fa-paper-plane"></i> Send Alert
                     </button>
                 </div>
@@ -218,8 +238,8 @@
             </div>
         </div>
 
-        <!-- Info Panel (appears on hover) -->
-        <div class="info-panel" id="info-panel">
+        <!-- Info Panel (now on the extreme right of the map) -->
+        <div class="info-panel info-panel-right" id="info-panel">
             <div class="info-content">
                 <h3>Quick Tips</h3>
                 <ul>
